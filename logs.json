@@ -1,0 +1,20 @@
+{
+  "logs": [
+    {
+      "date": "2026-07-04",
+      "topics": ["헤르메스", "git", "오픈클로"],
+      "hours": 4,
+      "difficulty": 3,
+      "key_learning": "에이전트 워크플로와 PR/머지 실습",
+      "file": "logs/2026-07-04.md"
+    },
+    {
+      "date": "2026-07-08",
+      "topics": ["git", "launchd", "디버깅", "HTML"],
+      "hours": 3,
+      "difficulty": 4,
+      "key_learning": "하드코딩 경로 버그 해결",
+      "file": "logs/2026-07-08.md"
+    }
+  ]
+}

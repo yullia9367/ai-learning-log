@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Young의 AI 학습 일지</title>
+<style>
+  :root {
+    --bg: #f7f6f3; --card: #ffffff; --text: #1f1f1e; --muted: #6f6e69;
+    --border: #e4e2dc; --accent: #2f6fdd; --green0: #eceae4;
+    --green1: #bfe3c5; --green2: #7fcb8f; --green3: #3ea45c; --green4: #1d7a3d;
+  }
+  body.dark {
+    --bg: #17181a; --card: #212327; --text: #eceae6; --muted: #9b9a94;
+    --border: #33353a; --accent: #6fa2f2; --green0: #2a2c30;
+    --green1: #1d4428; --green2: #2c6b3c; --green3: #3ea45c; --green4: #6fd48a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    transition: background .3s, color .3s; padding: 24px 16px 64px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  h1 { font-size: 24px; font-weight: 700; }
+  .sub { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  #modebtn {
+    border: 1px solid var(--border); background: var(--card); color: var(--text);
+    border-radius: 8px; padding: 8px 14px; cursor: pointer; font-size: 14px;
+  }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .stat {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; text-align: center;
+  }
+  .stat .num { font-size: 28px; font-weight: 700; color: var(--accent); }
+  .stat .label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; margin-bottom: 20px;
+  }
+  .card h2 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+  .grass { display: grid; grid-template-rows: repeat(7, 12px); grid-auto-flow: column; gap: 3px; overflow-x: auto; padding-bottom: 6px; }
+  .cell { width: 12px; height: 12px; border-radius: 3px; background: var(--green0); }
+  .cell[data-lv="1"] { background: var(--green1); }
+  .cell[data-lv="2"] { background: var(--green2); }
+  .cell[data-lv="3"] { background: var(--green3); }
+  .cell[data-lv="4"] { background: var(--green4); }
+  .legend { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); margin-top: 8px; justify-content: flex-end; }
+  .legend .cell { display: inline-block; }
+  .bars { display: flex; flex-direction: column; gap: 10px; }
+  .bar-row { display: grid; grid-template-columns: 90px 1fr 46px; align-items: center; gap: 10px; font-size: 14px; }
+  .bar-track { background: var(--green0); border-radius: 6px; height: 14px; overflow: hidden; }
+  .bar-fill { background: var(--accent); height: 100%; border-radius: 6px; transition: width .6s ease; }
+  .bar-val { color: var(--muted); font-size: 13px; text-align: right; }
+  .loglist { display: flex; flex-direction: column; gap: 10px; }
+  .log-item {
+    display: block; text-decoration: none; color: inherit;
+    border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px;
+    transition: border-color .2s;
+  }
+  .log-item:hover { border-color: var(--accent); }
+  .log-date { font-weight: 700; font-size: 15px; }
+  .log-key { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 12px; padding: 2px 10px; border-radius: 999px;
+    background: var(--green0); color: var(--muted);
+  }
+  #empty { color: var(--muted); font-size: 14px; text-align: center; padding: 24px 0; }
+  @media (max-width: 600px) {
+    h1 { font-size: 20px; }
+    .bar-row { grid-template-columns: 70px 1fr 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Young의 AI 학습 일지</h1>
+    <button id="modebtn">🌙 다크모드</button>
+  </header>
+  <p class="sub">매일의 공부를 기록하고, 성장을 눈으로 확인합니다.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="num" id="total-days">0</div><div class="label">총 학습 일수</div></div>
+    <div class="stat"><div class="num" id="total-hours">0</div><div class="label">누적 학습 시간</div></div>
+    <div class="stat"><div class="num" id="streak">0</div><div class="label">최근 7일 학습</div></div>
+    <div class="stat"><div class="num" id="topic-count">0</div><div class="label">다룬 주제 수</div></div>
+  </div>
+
+  <div class="card">
+    <h2>학습 잔디밭 (최근 18주)</h2>
+    <div class="grass" id="grass"></div>
+    <div class="legend">
+      적음 <span class="cell"></span><span class="cell" data-lv="1"></span><span class="cell" data-lv="2"></span><span class="cell" data-lv="3"></span><span class="cell" data-lv="4"></span> 많음
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>주제별 누적 시간</h2>
+    <div class="bars" id="bars"></div>
+  </div>
+
+  <div class="card">
+    <h2>학습 일지</h2>
+    <div class="loglist" id="loglist"></div>
+    <p id="empty" style="display:none;">logs.json에 일지를 추가하면 여기에 나타납니다.</p>
+  </div>
+</div>
+
+<script>
+const btn = document.getElementById("modebtn");
+if (localStorage.getItem("mode") === "dark") { document.body.classList.add("dark"); btn.textContent = "☀️ 라이트모드"; }
+btn.onclick = () => {
+  document.body.classList.toggle("dark");
+  const dark = document.body.classList.contains("dark");
+  btn.textContent = dark ? "☀️ 라이트모드" : "🌙 다크모드";
+  localStorage.setItem("mode", dark ? "dark" : "light");
+};
+
+fetch("logs.json")
+  .then(r => r.json())
+  .then(data => render(data.logs || []))
+  .catch(() => { document.getElementById("empty").style.display = "block"; });
+
+function render(logs) {
+  logs.sort((a, b) => b.date.localeCompare(a.date));
+  const byDate = {};
+  logs.forEach(l => { byDate[l.date] = (byDate[l.date] || 0) + (l.hours || 1); });
+
+  document.getElementById("total-days").textContent = Object.keys(byDate).length;
+  document.getElementById("total-hours").textContent =
+    logs.reduce((s, l) => s + (l.hours || 0), 0) + "h";
+
+  const today = new Date();
+  let recent = 0;
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    if (byDate[fmt(d)]) recent++;
+  }
+  document.getElementById("streak").textContent = recent + "일";
+
+  const topics = {};
+  logs.forEach(l => (l.topics || []).forEach(t => { topics[t] = (topics[t] || 0) + (l.hours || 1); }));
+  document.getElementById("topic-count").textContent = Object.keys(topics).length;
+
+  const grass = document.getElementById("grass");
+  const start = new Date(today); start.setDate(today.getDate() - (18 * 7 - 1));
+  start.setDate(start.getDate() - start.getDay());
+  for (let i = 0; i < 18 * 7; i++) {
+    const d = new Date(start); d.setDate(start.getDate() + i);
+    const h = byDate[fmt(d)] || 0;
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.dataset.lv = h === 0 ? 0 : h <= 1 ? 1 : h <= 2 ? 2 : h <= 4 ? 3 : 4;
+    cell.title = fmt(d) + (h ? ` · ${h}시간` : "");
+    grass.appendChild(cell);
+  }
+
+  const bars = document.getElementById("bars");
+  const entries = Object.entries(topics).sort((a, b) => b[1] - a[1]);
+  const max = entries.length ? entries[0][1] : 1;
+  entries.forEach(([name, h]) => {
+    const row = document.createElement("div");
+    row.className = "bar-row";
+    row.innerHTML = `<span>${name}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(h / max * 100)}%"></div></div>
+      <span class="bar-val">${h}h</span>`;
+    bars.appendChild(row);
+  });
+
+  const list = document.getElementById("loglist");
+  if (!logs.length) { document.getElementById("empty").style.display = "block"; return; }
+  logs.forEach(l => {
+    const a = document.createElement("a");
+    a.className = "log-item";
+    a.href = l.file;
+    a.innerHTML = `<div class="log-date">${l.date}</div>
+      <div class="log-key">${l.key_learning || ""}</div>
+      <div class="tags">${(l.topics || []).map(t => `<span class="tag">${t}</span>`).join("")}</div>`;
+    list.appendChild(a);
+  });
+}
+function fmt(d) {
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+</script>
+</body>
+</html>
