@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLM wiki란 무엇인가</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLM wiki란 무엇인가</h1>
+</header>
+<h1 id="llm-wiki란-무엇인가-간단-보고서">LLM wiki란 무엇인가 : 간단
+보고서</h1>
+<h2 id="정의">1. 정의</h2>
+<p>LLM wiki란 raw data를 LLM이 스키마(규칙)를 통해 위키(결과물)라는
+유의미한 지식으로 만들고 유지하는 시스템입니다. 지식을 쌓고 연결하려는
+시도는 예전부터 있었지만 유지의 막대한 비용과 시간 때문에 번번이
+실패했습니다. 그러나 카파시는 이 유지 및 연결을 LLM에 맡기면 지치지 않는
+노동을 통해 그 비용이 거의 0이 된다는 것을 발견했고, 여기서 LLM wiki가
+탄생했습니다.</p>
+<p>이 정의는 처음부터 제 머릿속에 있던 것이 아닙니다. 저는 이 개념을
+여러 번 틀리면서 이해했고, 이 보고서는 그 교정의 기록입니다.</p>
+<h2 id="내가-llm-wiki를-이해하는-데-필요했던-사실들">2. 내가 LLM wiki를
+이해하는 데 필요했던 사실들</h2>
+<p>나는 내가 알지 못했던 사실을 학습해가면서 LLM wiki에 대한 정의를 조금
+더 명확히 만들어갈 수 있었습니다.</p>
+<h3
+id="사실-1.-단순히-raw-data를-모으는-것만으로-지식의-복리가-일어나지-않는다">사실
+1. 단순히 raw data를 모으는 것만으로 지식의 복리가 일어나지 않는다</h3>
+<p>처음에 저는 데이터를 매일 모아 저장하는 행위 자체가 복리를 만든다고
+생각했습니다. 그러나 지식의 복리는 위키층(결과물)의 연결 및 갱신에서
+발생합니다. 무작위로 raw 데이터만 모은다면 그것은 유의미한 결과물이 될
+수 없습니다. 그것들은 모두 흩어져 있고 유기적으로 연결되어 의미층을
+이루지 않고 있기 때문입니다. 복리는 새 지식이 기존과 연결되고, 모순이
+수정되어 기존 정보의 가치가 올라갈 때 비로소 의미가 생깁니다. 마치
+원고들이 편집되어 하나의 의미를 만드는 것과 같습니다. raw 층은 복리의
+원금을 공급하는 창고이고, 이자를 낳는 것은 위키 층에서의 운용입니다.</p>
+<h3 id="사실-2.-스키마는-층이-아니라-전체를-감싸는-운영-규칙서다">사실
+2. 스키마는 층이 아니라 전체를 감싸는 운영 규칙서다</h3>
+<p>저는 처음에 스키마를 위키가 커지면 생기는 분류 체계, 즉 하나의 층으로
+이해했습니다. 그러나 스키마는 층이 아니라 시스템 전체를 감싸는 운영
+규칙서입니다. “raw는 절대 수정하지 않는다”, “위키 페이지는 이 형식을
+따른다”, “모순은 지우지 말고 병기한다” 같은 작업 규약이 담긴
+문서(CLAUDE.md)이며, 지식이 담기는 자리가 아니라 지식을 다루는 방법이
+담기는 자리입니다. CLAUDE.md는 스스로 실행되는 프로그램이 아니라 텍스트
+파일입니다. LLM 에이전트가 작업을 시작할 때마다 이 파일을 읽고 자신의
+행동을 규칙에 맞춥니다. 출판에 빗대면 CLAUDE.md는 스타일 가이드이고,
+LLM은 그 가이드를 숙지한 편집자입니다. 스타일 가이드가 원고를 고치는
+것이 아니라 가이드를 읽은 편집자가 고치듯, 규칙이 있어야 LLM이 평범한
+챗봇이 아니라 규율 있는 위키 관리자로 일하게 됩니다.</p>
+<h3 id="사실-3.-llm-wiki는-자동이-아니라-반자동이다">사실 3. LLM wiki는
+자동이 아니라 반자동이다</h3>
+<p>저는 이 시스템이 한번 세팅하면 자동으로 굴러간다고 생각했습니다. 이
+오해를 바로잡아준 것은 제가 직접 만든 날씨 자동화 프로그램이었습니다.
+launchd에 등록된 그 스크립트는 제가 자고 있어도 정해진 시각에 스스로
+실행됩니다. 그것이 진짜 자동입니다. 반면 LLM wiki는 제가 “이번 달 기록을
+위키에 반영해줘”라고 시동을 걸기 전까지 아무 일도 일어나지 않습니다. LLM
+wiki가 없앤 것은 사람의 개입이 아니라 사람의 노동입니다. 어떤 자료를
+넣을지, 어떤 질문을 던질지, LLM의 정리가 맞는지 검토하는 판단은 여전히
+사람의 몫이며, 남아 있어야 하는 몫입니다. 이 구분은 실용적으로
+중요합니다. 자동이라고 믿으면 세팅 후 위키가 알아서 크길 기다리다
+포기하게 되고, 반자동이라고 이해하면 월말 정리 30분 같은 사람의 리듬을
+시스템 설계에 포함시키게 됩니다. 이 시스템의 성패는 LLM의 성능이 아니라
+그 리듬의 유지에서 갈립니다.</p>
+<h2 id="구조-세-개의-층과-하나의-규칙서">3. 구조 — 세 개의 층과 하나의
+규칙서</h2>
+<p>카파시의 원형은 두 개의 층과 하나의 규칙서로 이루어집니다. 절대
+수정하지 않는 진실의 원천인 raw 층, LLM이 쓰고 유지하며 복리가 발생하는
+위키 층, 그리고 이 전체를 감싸는 스키마(CLAUDE.md)입니다. 저는 여기에
+저만의 변형을 하나 더 갖고 있습니다. raw(날짜별 학습 기록) → wiki(주제별
+정리) → 원고(book)의 3층입니다. 원고는 스키마와 성격이 다릅니다.
+스키마가 “어떻게 운영하는가”에 대한 답이라면, 원고는 “무엇을
+만들어내는가”에 대한 답으로, 위키가 충분히 자랐을 때 뽑아내는
+산출물입니다. 두 모델은 경쟁 관계가 아니라 차원이 다른 확장이며,
+완성형은 raw → wiki → 원고 스택 전체를 CLAUDE.md가 감싸는 구조입니다.
+개념에 대한 책을 만든다는 접근으로 LLM wiki를 만들 수 있다는 것이 제
+변형의 핵심입니다.</p>
+<h2 id="판별-기준과-나의-현재-위치">4. 판별 기준과 나의 현재 위치</h2>
+<p>폴더 구조를 갖췄다고 LLM wiki가 되는 것은 아닙니다. 판별 질문은
+하나입니다. 새 지식이 들어왔을 때 옛 페이지가 갱신되는가. 그 순환이 돌면
+위키이고, 돌지 않으면 아직 폴더입니다. 이 기준으로 보면 제 학습
+저장소(ai-learning-log)는 현재 raw 층만 살아 있는 상태입니다. 매일의
+기록이라는 원금 입금은 되고 있으나 운용은 시작 전입니다. 운영 리듬도
+정해두었습니다. 매일 날짜 파일에 raw 기록 5분, 좋은 답변이 나올 때마다
+위키에 저장(기준은 “한 달 뒤 다시 물어볼 것 같은가”), 월말에
+ingest(기록의 위키 승격)와 lint(모순·중복 점검) 30분, 그리고 매번 git
+commit과 push입니다.</p>
+<h2 id="앞으로-보완할-점">5. 앞으로 보완할 점</h2>
+<p>지금까지의 작업은 ’만들기’에 초점을 맞추고 있었습니다. 다음 단계는
+CLAUDE.md를 직접 작성해보고 ’유지·보수’를 배우는 것입니다. 매일 습득하는
+지식(raw data)을 LLM이 규칙(스키마)을 적용하여 결과물(위키)로 생성하고
+유지하는 시스템, 그리고 그것을 통해 배우고 성장하며 결국 흩어지지 않는
+지식을 만드는 것이 제 목표입니다.</p>
+<hr />
+<p><em>이 문서 자체가 제 LLM wiki의 첫 페이지입니다. 좋은 답변은 채팅에
+흘려보내지 말고 위키에 저장하라는 원칙의 첫 실행이며, 이해가 갱신되면 이
+문서도 갱신될 것입니다.</em></p>
+</body>
+</html>
